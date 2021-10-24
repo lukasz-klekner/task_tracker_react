@@ -4,6 +4,8 @@ import AddTask from './components/AddTask'
 import Header from './components/Header'
 import Tasks from './components/Tasks'
 
+const BASE_URL = 'http://localhost:5000/tasks'
+
 function App() {
   const [showAddTask, setShowAddTask] = useState(false)
   const [tasks, setTasks] = useState([])
@@ -13,7 +15,11 @@ function App() {
     setTasks([...tasks, { id, ...task }])
   }
 
-  const deleteTask = (id) => {
+  const deleteTask = async (id) => {
+    await fetch(`${BASE_URL}/${id}`, {
+      method: 'DELETE',
+    })
+
     const taskToDo = tasks.filter((task) => task.id !== id)
     setTasks(taskToDo)
   }
@@ -26,7 +32,7 @@ function App() {
   }
 
   useEffect(async () => {
-    const response = await fetch('http://localhost:5000/tasks')
+    const response = await fetch(BASE_URL)
     const data = await response.json()
 
     setTasks(data)
