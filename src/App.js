@@ -10,9 +10,17 @@ function App() {
   const [showAddTask, setShowAddTask] = useState(false)
   const [tasks, setTasks] = useState([])
 
-  const addTask = (task) => {
-    const id = Math.floor(Math.random() * 10000 + 1)
-    setTasks([...tasks, { id, ...task }])
+  const addTask = async (task) => {
+    const response = await fetch(BASE_URL, {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(task),
+    })
+    const data = await response.json()
+
+    setTasks([...tasks, data])
   }
 
   const deleteTask = async (id) => {
