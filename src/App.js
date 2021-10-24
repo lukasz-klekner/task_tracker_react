@@ -13,6 +13,11 @@ function App() {
     { id: 5, text: 'Fifth task', reminder: false },
   ])
 
+  const addTask = (task) => {
+    const id = Math.floor(Math.random() * 10000 + 1)
+    setTasks([...tasks, { id, ...task }])
+  }
+
   const deleteTask = (id) => {
     const taskToDo = tasks.filter((task) => task.id !== id)
     setTasks(taskToDo)
@@ -27,7 +32,7 @@ function App() {
   return (
     <div className='container'>
       <Header />
-      <AddTask />
+      <AddTask onAdd={addTask} />
       {tasks.length > 0 ? (
         <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleRemainder} />
       ) : (
