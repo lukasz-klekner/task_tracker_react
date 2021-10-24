@@ -24,6 +24,7 @@ Task.defaultProps = {
 Task.propTypes = {
   task: PropTypes.object,
   onDelete: PropTypes.func,
+  onToggle: PropTypes.func,
 }
 
 export default Task
