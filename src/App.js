@@ -1,18 +1,12 @@
-import { useState } from 'react'
-import AddTask from './components/AddTask'
+import { useState, useEffect } from 'react'
 
+import AddTask from './components/AddTask'
 import Header from './components/Header'
 import Tasks from './components/Tasks'
 
 function App() {
   const [showAddTask, setShowAddTask] = useState(false)
-  const [tasks, setTasks] = useState([
-    { id: 1, text: 'First task', reminder: true },
-    { id: 2, text: 'Second task', reminder: true },
-    { id: 3, text: 'Third task', reminder: false },
-    { id: 4, text: 'Fourth task', reminder: true },
-    { id: 5, text: 'Fifth task', reminder: false },
-  ])
+  const [tasks, setTasks] = useState([])
 
   const addTask = (task) => {
     const id = Math.floor(Math.random() * 10000 + 1)
@@ -30,6 +24,13 @@ function App() {
     )
     setTasks(newTasks)
   }
+
+  useEffect(async () => {
+    const response = await fetch('http://localhost:5000/tasks')
+    const data = await response.json()
+
+    setTasks(data)
+  }, [])
   return (
     <div className='container'>
       <Header
