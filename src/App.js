@@ -32,9 +32,24 @@ function App() {
     setTasks(taskToDo)
   }
 
-  const toggleRemainder = (id) => {
+  const toggleRemainder = async (id) => {
+    const response = await fetch(`${BASE_URL}/${id}`)
+    const data = await response.json()
+
+    const updatedTask = { ...data, reminder: !data.reminder }
+
+    const res = await fetch(`${BASE_URL}/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(updatedTask),
+    })
+
+    const result = await res.json()
+
     const newTasks = tasks.map((task) =>
-      task.id === id ? { ...task, reminder: !task.reminder } : task
+      task.id === id ? { ...task, reminder: result.reminder } : task
     )
     setTasks(newTasks)
   }
